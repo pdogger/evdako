@@ -1,1 +1,1 @@
-web: gunicorn evdako.evdako.wsgi --log-file -
+web: gunicorn evdako.wsgi --log-file -
