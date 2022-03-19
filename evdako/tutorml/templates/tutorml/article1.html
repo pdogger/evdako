@@ -1,0 +1,212 @@
+{% extends 'tutorml/article.html' %}
+{% load static %}
+
+{% block title %}
+{{ article.title }}
+{% endblock %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'tutorml/css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'tutorml/css/atropos.min.css' %}">
+<link rel="stylesheet" href="{% static 'tutorml/css/parallax.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="section full_article">
+    <div class="article parallax_article">
+        <div class="atropos parallax">
+            <!-- scale container (required) -->
+            <div class="atropos-scale">
+              <!-- rotate container (required) -->
+              <div class="atropos-rotate">
+                <!-- inner container (required) -->
+                <div class="atropos-inner">
+                    <img data-atropos-offset="-5" src="{% static article.img_path %}">
+                    <h1 class="text-over" data-atropos-offset="3">{{ article.title }}</h1>
+                    <div class="article_info text-over-2" data-atropos-offset="3">
+                        <span>{{ article.category }}</span>
+                        <span>{{ article.pub_date }}</span>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="mobile_article">
+        <h1 class="section_title">{{ article.title }}</h1>
+        <div class="article">
+            <div class="article_img"><img src="{% static article.img_path %}"></div>
+            <div class="article_info">
+                <span>{{ article.category }}</span>
+                <span>{{ article.pub_date }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="article_text">
+        <p>Определение языка является важным этапом в проблеме обработки естественного языка (NLP). Оно включает в себя
+            попытку предсказать естественный язык фрагмента текста. Важно знать язык текста до того, как будут
+            предприняты другие действия (например, перевод/анализ настроения). Например, когда вы заходите на сайт
+            Google Translate, вы можете увидеть функцию "Определить язык". Это происходит потому, что Google сначала
+            пытается определить язык вашего предложения, прежде чем оно будет переведено.</p>
+        <p><a href="https://downloads.tatoeba.org/exports/">Набор данных</a> представлен компанией Tatoeba. Полный набор
+            данных состоит из 6 872 356 предложений на 328 уникальных языках. Для упрощения нашей задачи мы рассмотрим
+            всего 5 языков: английский, французский, немецкий, итальянский и русский.</p>
+        <p>Мы загружаем набор данных и выполняем некоторую начальную обработку в приведенном ниже коде. Сначала мы
+            фильтруем набор данных, чтобы получить предложения нужной длины и языка. Мы случайным образом отбираем 50
+            000 предложений из каждого языка, так что всего получается 300 000 строк. Затем эти предложения разделяются
+            на обучающий (70%), проверочный (20%) и тестовый (10%) набор.</p>
+        <pre class="prettyprint lang-py linenums">import pandas as pd
+
+#Read in full dataset
+data = pd.read_csv('../data/sentences.csv',
+                            sep='\t',
+                            encoding='utf8',
+                            index_col=0,
+                            names=['lang','text'])
+
+#Filter by text length
+len_cond = [True if 20<=len(s)<=200 else False for s in data['text']]
+data = data[len_cond]
+
+#Filter by text language
+lang = ['deu', 'eng', 'fra', 'ita', 'por', 'spa']
+data = data[data['lang'].isin(lang)]
+
+#Select 50000 rows for each language
+data_trim = pd.DataFrame(columns=['lang','text'])
+
+for l in lang:
+    lang_trim = data[data['lang'] ==l].sample(50000,random_state = 100)
+    data_trim = data_trim.append(lang_trim)
+
+#Create a random train, valid, test split
+data_shuffle = data_trim.sample(frac=1)
+
+train = data_shuffle[0:210000]
+valid = data_shuffle[210000:270000]
+test = data_shuffle[270000:300000]
+</pre>
+        <p>Прежде чем приступить к построению модели, необходимо преобразовать наш набор данных в форму, понятную
+            нейронной сети. Другими словами, нам нужно извлечь признаки из нашего списка предложений, чтобы создать
+            матрицу признаков. Для этого мы используем n-граммы символов, которые представляют собой наборы из n
+            последовательных символов. Этот подход похож на модель "мешок слов", только мы используем символы, а не
+            слова. Мы будем использовать пакет CountVectorizer, предоставляемый SciKit Learn. Этот пакет позволяет нам
+            векторизовать текст на основе некоторого словарного списка (т.е. списка слов/символов). Создадим список
+            слов:</p>
+        <pre class="prettyprint lang-py linenums">from sklearn.feature_extraction.text import CountVectorizer
+
+def get_trigrams(corpus,n_feat=200):
+    #fit the n-gram model
+    vectorizer = CountVectorizer(analyzer='char',
+                            ngram_range=(3, 3)
+                            ,max_features=n_feat)
+
+    X = vectorizer.fit_transform(corpus)
+
+    #Get model feature names
+    feature_names = vectorizer.get_feature_names()
+
+    return feature_names
+
+features = {}
+features_set = set()
+
+for l in lang:
+
+    #get corpus filtered by language
+    corpus = train[train.lang==l]['text']
+
+    #get 200 most frequent trigrams
+    trigrams = get_trigrams(corpus)
+
+    #add to dict and set
+    features[l] = trigrams
+    features_set.update(trigrams)
+
+
+#create vocabulary list using feature set
+vocab = dict()
+for i,f in enumerate(features_set):
+    vocab[f]=i
+</pre>
+        <p>Окончательная модель имеет 3 скрытых слоя с 500, 500 и 250 узлами соответственно. Выходной слой имеет 6
+            узлов, по одному для каждого языка. Все скрытые слои имеют функции активации ReLU, а выходной слой, как уже
+            упоминалось, имеет функцию активации Softmax. Мы обучаем эту модель, используя 50 эпох и размер батча 512.
+            Используя наш обучающий набор, мы обучаем эту DDN в приведенном ниже коде. В итоге мы достигаем точности
+            обучения 99,70%.</p>
+        <pre class="prettyprint lang-py linenums">from keras.models import Sequential
+from keras.layers import Dense
+
+#Get training data
+x = train_feat.drop('lang',axis=1)
+y = encode(train_feat['lang'])
+
+#Define model
+model = Sequential()
+model.add(Dense(500, input_dim=663, activation='relu'))
+model.add(Dense(500, activation='relu'))
+model.add(Dense(250, activation='relu'))
+model.add(Dense(6, activation='softmax'))
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+#Train model
+model.fit(x, y, epochs=4, batch_size=100)
+</pre>
+        <p>В процессе обучения модели она может стать предвзятой по отношению как к обучающему, так и к проверочному
+            набору. Поэтому лучше всего определять точность модели на невидимом тестовом множестве. Итоговая точность на
+            тестовом множестве составила 98,26%.</p>
+        <p>Мы можем получить лучшее представление о том, насколько хорошо модель справляется с каждым языком, посмотрев
+            на матрицу ниже. Красная диагональ показывает количество правильных предсказаний для каждого языка. Числа
+            вне диагонали показывают, сколько раз один язык был неверно предсказан как другой.</p>
+        <div style="width:100%;display:flex;justify-content:center;"><img class="img_1_matrix"
+                src="https://miro.medium.com/max/2400/1*EAtd2oR0WngiZ3PczmpKSA.png"></img></div>
+        <p>Ниже расположена формочка, в которой вы можете ввести свой текст и проверить, правильно ли описанная модель
+            распознает язык. Спасибо за внимание!</p>
+    </div>
+    <form class="form_predict_lang" method="POST">
+        {% csrf_token %}
+        <textarea id="text_predict_lang" placeholder="Введите текст для распознавания"></textarea>
+        <button id="predict_lang" type="submit">Распознать язык</button>
+        <p id="predicted_lang"></p>
+    </form>
+</section>
+<audio autoplay hidden loop id="audio_article">
+    <source src="{% static 'tutorml/audio/back.mp3' %}" type="audio/mpeg">
+    Ваш браузер не поддерживает проигрыш аудио.
+</audio>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+<script src="{% static 'tutorml/js/atropos.min.js' %}"></script>
+<script>
+    document.getElementById("audio_article").volume = 0.05;
+</script>
+<script>
+    $("#predict_lang").click(function () {
+        var input = $('#text_predict_lang').val();
+        var token = $(".form_predict_lang").find('input[name=csrfmiddlewaretoken]').val();
+
+        $.ajax({
+            url: "{% url 'tutorml:get_predicted_lang' %}",
+            method: 'post',
+            data: {
+                'inputValue': input,
+                'csrfmiddlewaretoken': token,
+            },
+            dataType: 'json',
+            success: function (data) {
+                document.getElementById('predicted_lang').innerHTML = data["response"];
+                document.getElementById('predicted_lang').style.display = 'block';
+            }
+        });
+        event.preventDefault();
+    });
+    const parallax = Atropos({
+        el: '.parallax',
+        rotateXMax: 25,
+        rotateYMax: 25,
+        shadow: false
+    });
+</script>
+{% endblock %}

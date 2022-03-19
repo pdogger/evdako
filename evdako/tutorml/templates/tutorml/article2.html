@@ -1,0 +1,60 @@
+{% extends 'tutorml/article.html' %}
+{% load static %}
+
+{% block title %}
+{{ article.title }}
+{% endblock %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'tutorml/css/tictac.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="section full_article">
+    <h1 class="section_title">{{ article.title }}</h1>
+    <div id="wrap">
+        <div id="top">
+            <div id="dropdown"> <label for="unittype">&blacktriangledown;</label>
+            <select>
+                <option value="0">Легко</option>
+                <option value="1">Средне</option>
+                <option value="2"  selected>Невозможно</option>
+                <option value="3">Играть с другом</option>
+            </select>
+            </div>
+
+            <div id="cross"><span class="cn">х</span><span class="count" id="scoreX">-</span></div>
+            <div id="nought"><span class="cn">о</span><span class="count" id="scoreO">-</span></div>
+        </div>
+
+        <div id="center">
+            <ul id="board">
+                <li class="pl" id="one"   value="0"></li>
+                <li class="pl" id="two"   value="1"></li>
+                <li class="pl" id="three" value="2"></li>
+                <li class="pl" id="four"  value="3"></li>
+                <li class="pl" id="five"  value="4"></li>
+                <li class="pl" id="six"   value="5"></li>
+                <li class="pl" id="seven" value="6"></li>
+                <li class="pl" id="eigth" value="7"></li>
+                <li class="pl" id="ninen" value="8"></li>
+            </ul>
+
+            <div class="result" id="crossWin"><span class="x">&#x02A2F;</span><br>Победитель!</div>
+
+            <div class="result" id="noughtWin"><span class="o">&bigcirc;</span><br>Победитель!</div>
+
+            <div class="result" id="tie"><span class="x">&#x02A2F;</span> <span class="o">&bigcirc;</span> <br>Ничья!</div>
+
+        </div>
+
+        <button id="bottom">
+            ЗАНОВО
+        </button>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'tutorml/js/tictac.js' %}"></script>
+{% endblock %}

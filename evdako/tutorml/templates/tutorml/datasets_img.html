@@ -1,0 +1,27 @@
+{% extends 'tutorml/base.html' %}
+{% load static %}
+
+{% block title %}
+Датасеты с изображениями
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h1 class="section_title">ДАТАСЕТЫ С ИЗОБРАЖЕНИЯМИ</h1>
+    {% if datasets.count > 0 %}
+        {% for dataset in datasets %}
+            <div class="dataset">
+                <div class="article_body">
+                    <h1 class="article_title">{{ dataset.name }}</h1>
+                    <p class="article_text">
+                        {{ dataset.description }}
+                    </p>
+                    <a href="{{ dataset.file }}" target="_blank" class="link_button">СКАЧАТЬ</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="datasets_not_found">К сожалению, в данный момент датасеты в заданной категории отсутствуют.</p>
+    {% endif %}
+</section>
+{% endblock %}

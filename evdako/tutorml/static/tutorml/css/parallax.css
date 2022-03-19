@@ -1,0 +1,87 @@
+.parallax {
+    width: 50rem;
+    height: 30rem;
+    margin: 3.2rem auto;
+    border-radius: 2rem;
+    font-weight: 600;
+    position: relative;
+}
+.atropos-inner img {
+    position: absolute;
+    top: -5%;
+    left: -5%;
+    object-fit: cover;
+    width: 110%;
+    height: 110%;
+    max-width: none;
+}
+.atropos-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 5rem;
+    overflow: hidden;
+}
+.text-over {
+    position: absolute;
+    top: 0%;
+    opacity: 1;
+    text-align: center;
+    left: 0;
+    width: 100%;
+    font-size: 2.2rem;
+    color: hsl(0, 2%, 9%);
+    line-height: 4rem;
+    padding: 1rem;
+}
+.text-over-2 {
+    position: absolute;
+    width: 90% !important;
+    text-align: center;
+    opacity: 1;
+    bottom: 5%;
+    left: 5%;
+    font-size: 1.8rem;
+    color: hsl(120, 9%, 7%);
+    padding: 1rem;
+}
+@media screen and (max-width: 1168px) {
+    .parallax {
+        width: 80%;
+    }
+    .text-over {
+        font-size: 2rem;
+        top: 2%;
+    }
+    .text-over-2 {
+        font-size: 1.4rem;
+    }
+}
+@media screen and (max-width: 767px) {
+    .parallax {
+        height: 15rem;
+    }
+    .text-over {
+        font-size: 2.5rem;
+        line-height: 3rem;
+    }
+    .text-over-2 {
+        top: 35%;
+        font-size: 1.4rem;
+    }
+}
+@media screen and (max-width: 567px) {
+    .parallax {
+        width: 80%;
+        height: 100vw;
+    }
+    .text-over {
+        top: 0;
+        font-size: 1.8rem;
+        line-height: 2.2rem;
+    }
+    .text-over-2 {
+        top: 30%;
+        font-size: 1.2rem;
+    }
+}

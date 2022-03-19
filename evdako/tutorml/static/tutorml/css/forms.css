@@ -1,0 +1,216 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.main {
+    width: max-content;
+    margin: 12vh auto 0 auto;
+    padding: 2rem 3rem;
+    background: #fdfefd;
+    border-radius: 1rem;
+    box-shadow: 0 0 .25rem #272525;
+}
+.subscribe_form,
+.future_form,
+.form_predict_lang,
+.form_classify_img {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, .2);
+}
+.form_classify_img {
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.future_form {
+    width: 40rem;
+}
+.form_predict_lang {
+    width: 58rem;
+}
+.form_classify_img:hover,
+.subscribe_form:hover,
+.future_form:hover,
+.form_predict_lang:hover {
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
+}
+.predicted_lang {
+    text-align: justify;
+}
+.form_predict_lang textarea {
+    width: 100% !important;
+    height: 6rem !important;
+    padding: 10px 8px;
+    font-size: 1.2rem;
+    background: #e7e8e6;
+    border: none;
+    color: #222422;
+    border-radius: .4rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+h2 {
+    text-align: center;
+    font-size: 1.6rem;
+    margin-bottom: 1.4rem;
+    font-weight: 500;
+    color: #151715;
+}
+.input-parent {
+    display: block;
+    margin-bottom: 1rem;
+}
+label {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #222422;
+}
+.input-parent .input {
+    padding: 10px 8px;
+    width: 25rem;
+    font-size: 1.2rem;
+    background: #e7e8e6;
+    border: none;
+    color: #222422;
+    border-radius: .4rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+.input-parent .input:hover {
+    background: #dfe1de;
+}
+.input-parent .input:focus {
+    box-shadow: 0px 0px 0px 1px hsl(120, 40%, 35%);
+}
+.input-parent a {
+    color:hsl(120, 37%, 35%);
+    display: block;
+    font-weight: 400;
+    padding-left: .2rem;
+}
+::-webkit-file-upload-button,
+button {
+    font-family: var(--font-family);
+    font-weight: 500;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    padding: 1rem;
+    font-size: 1.2rem;
+    width: 100%;
+    border: none;
+    color: whitesmoke;
+    background-color: hsl(120, 44%, 40%);
+    border-radius: .6rem;
+    transition: .3s;
+    cursor: pointer;
+}
+button:hover {
+    background-color: hsl(120, 43%, 34%);
+    transform: translate(.1rem, -.1rem) scale(102%);
+}
+.label {
+    cursor: pointer;
+    padding-left: 1rem;
+    display: inline;
+}
+.register,
+.login {
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: 400;
+}
+.register label,
+.login label {
+    display: inline;
+}
+.register a,
+.login a {
+    color:hsl(120, 37%, 35%);
+}
+.sub_input {
+    width: 100% !important;
+}
+.sub-parent label:hover {
+    cursor: pointer;
+    color: #444244;
+}
+.remember_check {
+    width: 1rem;
+    height: 1rem;
+}
+input[type="checkbox"],
+input[type="radio"] {
+    cursor: pointer;
+}
+
+input[type="checkbox"].switch {
+    appearance: none;
+    width: 2.5rem;
+    height: 1rem;
+    background: #ddd;
+    border-radius: 3em;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+    transition: all .2s ease-in-out;
+}
+
+input[type="checkbox"].switch:checked {
+	background: hsl(120, 44%, 40%);
+}
+
+input[type="checkbox"].switch:after {
+	position: absolute;
+	content: "";
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 0 .25em rgba(0,0,0,.3);
+	transform: scale(.7);
+	left: 0;
+	transition: all .2s ease-in-out;
+}
+input[type="checkbox"].switch:checked:after {
+	left: calc(100% - 1rem);
+}
+@media screen and (max-width: 1168px) {
+    .form_predict_lang {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 1023px) {
+    .future_form,
+    .subscribe_form {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 567px) {
+    #main {
+        padding: 1.6rem 2.4rem;
+    }
+    .input-parent .input {
+        width: 15rem;
+        font-size: 1rem;
+    }
+    h2 {
+        font-size: 1.3rem;
+    }
+    label,
+    button,
+    .register,
+    .login {
+        font-size: 1rem;
+    }
+    .form_predict_lang {
+        padding: 1rem;
+    }
+}

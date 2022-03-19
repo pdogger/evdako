@@ -1,0 +1,32 @@
+{% extends 'tutorml/article.html' %}
+{% load static %}
+
+{% block title %}
+{{ article.title }}
+{% endblock %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'tutorml/css/nn.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<section class="section full_article">
+	<div class="mobile_show">
+		<h1 class="section_title">{{ article.title }}</h1>
+		<div class="article_text">
+			<p>К сожалению, данную демонстрацию можно посмотреть только с устройств с большими экранами,
+				поскольку иначе показанный материал не будет освоен на достаточном уровне. Да и вместить
+				весь функционал на маленький экран не получится... Приносим свои извинения!</p>
+			<div style="width:100%;display:flex;justify-content:center;"><img class="img_1_matrix"
+				src="https://i.pinimg.com/736x/11/ba/26/11ba2659bc34006a9d84f5a0d6a6d488.jpg"></img></div>
+		</div>
+	</div>
+	<div id="mainContainer">
+		<!-- React will put src/Simulation.tsx body here -->
+	</div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'tutorml/js/bundle.js' %}"></script>
+{% endblock %}

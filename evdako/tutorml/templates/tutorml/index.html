@@ -1,0 +1,118 @@
+{% extends 'tutorml/base.html' %}
+{% load static %}
+
+{% block title %}
+Главная
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h1 class="section_title">О EVDAKO</h1>
+    <div class="grid about_grid">
+        <video autoplay loop muted>
+            <source src="{% static 'tutorml/video/neural.webm' %}" type="video/webm">
+            Ваш браузер не поддерживает встраивание видео.
+        </video>
+        <p>
+            Данное веб-приложение разработано специально для курса "Разработка веб-приложений".
+            На сайте размещены обучающие материалы по тематике искусственного интеллекта.
+            На реальных примерах рассматриваются решения различных задач (классификация изображений,
+            распознавание языка, игровой ИИ, кластеризация и многое другое). Статьи разбиты по следующим
+            категориям: фото и видео, текст, аудио и прочее. Также, в разделе "Датасеты" размещены
+            наборы данных, используемые для обучения нейронных сетей из туториалов.<br><br>
+            Создатели: Омельченко К.Г., Стрельников Д.Ю., Умбрас Е.Д.<br>
+            Надеемся, что Вы найдете интересующую Вас тему и получите новые знания!
+        </p>
+    </div>
+</section>
+<section class="stats">
+    <div class="section grid stats_grid">
+        <div class="stats_element">
+            <h1 class="stats_element_title">
+                <span class="counter_number">{{ articles_number }}</span>
+            </h1>
+            <span class="stats_element_subtitle">
+                Туториалов выложено
+            </span>
+        </div>
+        <div class="stats_element">
+            <h1 class="stats_element_title">
+                <span class="counter_number">2</span>
+            </h1>
+            <span class="stats_element_subtitle">
+                Месяца разработки
+            </span>
+        </div>
+        <div class="stats_element">
+            <h1 class="stats_element_title">
+                <span class="counter_number">30</span>
+                <span>+</span>
+            </h1>
+            <span class="stats_element_subtitle">
+                Активных пользователей
+            </span>
+        </div>
+        <div class="stats_element">
+            <h1 class="stats_element_title">
+                <span class="counter_number">{{ datasets_number }}</span>
+            </h1>
+            <span class="stats_element_subtitle">
+                Датасетов добавлено
+            </span>
+        </div>
+        <div class="stats_element">
+            <h1 class="stats_element_title">
+                <span class="counter_number">18</span>
+            </h1>
+            <span class="stats_element_subtitle">
+                Побед в номинациях
+            </span>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <h1 class="section_title">ПОПУЛЯРНЫЕ ТУТОРИАЛЫ</h1>
+    <div class="grid articles_grid">
+        {% for article in popular_articles %}
+            <div class="article">
+                <div class="article_img"><img src="{% static article.img_path %}"></div>
+                <div class="article_body">
+                    <div class="article_info">
+                        <span>{{ article.category }}</span>
+                        <span>{{ article.pub_date }}</span>
+                    </div>
+                    <h1 class="article_title">{{ article.title }}</h1>
+                    <p class="article_text">
+                        {{ article.description }}
+                    </p>
+                    <a href="{% url 'tutorml:article' article.id %}" class="link_button">ЧИТАТЬ ПОЛНОСТЬЮ</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% comment %}
+<section class="partners">
+    <div class="section grid partners_grid">
+        <div class="partners_element">
+            <img src="images/partner1.png">
+        </div>
+        <div class="partners_element">
+            <img src="images/partner2.png">
+        </div>
+        <div class="partners_element">
+            <img src="images/partner3.png">
+        </div>
+        <div class="partners_element">
+            <img src="images/partner4.png">
+        </div>
+        <div class="partners_element">
+            <img src="images/partner5.png">
+        </div>
+        <div class="partners_element">
+            <img src="images/partner6.png">
+        </div>
+    </div>
+</section> {% endcomment %}
+{% endblock %}

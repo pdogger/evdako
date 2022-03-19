@@ -1,0 +1,26 @@
+.accordion-button:not(.collapsed) {
+    color: #fbfcfb;
+    background-color: hsla(120, 57%, 35%, 0.7);
+}
+.accordion-button:focus {
+    box-shadow: none;
+}
+.accordion {
+    font-size: 1.2rem;
+}
+.accordion-button {
+    font-size: 1.2rem;
+}
+.accordion-body {
+    font-weight: 400;
+    background-color: hsla(120, 44%, 40%, 0.1);
+    text-align: justify;
+}
+.bs_grid {
+    font-size: 1.2rem;
+}
+@media screen and (max-width: 567px) {
+    .bs_grid {
+        font-size: 1.1rem;
+    }
+}

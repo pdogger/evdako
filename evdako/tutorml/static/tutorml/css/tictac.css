@@ -1,0 +1,182 @@
+#wrap {
+  margin: 0 auto;
+  width: 800px;
+  text-align: center;
+  border: 1px solid #d3d3d3;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+}
+
+#image {
+  height: 170px;
+  background: url("https://41dmav17y2a239wj1k1kd0yt-wpengine.netdna-ssl.com/monitor/wp-content/uploads/sites/3/2016/11/tic-tac-toe-screenshot.png");
+  background-repeat: no-repeat;
+}
+
+#top {
+  position: relative;
+  height: 160px;
+  color: hsl(120, 45%, 39%);
+  border-top: 1px solid #d3d3d3;
+  background-color: #f8f8f8;
+}
+
+#dropdown {
+  text-align: left;
+  margin: 1rem 1rem 0;
+  padding-bottom: 1rem;
+}
+
+select {
+  padding: 10px;
+  background: none;
+  width: auto;
+  color: hsl(120, 55%, 30%);
+  font-size: 1.2rem;
+  border: none;
+  height: 40px;
+  appearance: none;
+  -webkit-appearance: none;
+  white-space: nowrap;
+  outline: none;
+}
+
+select option {
+  background: white;
+  color: hsl(120, 55%, 30%);
+  box-shadow: 20px 20px black;
+  outline: none;
+}
+
+option:checked, option:hover {
+    background: hsla(120, 44%, 59%, 0.596);
+}
+
+#cross, #nought {
+  display: inline-block;
+  padding-right: 1rem;
+  padding-bottom: .5rem;
+  /* margin: -10px 4px 20px; */
+  /* width: 200px;
+  height: 40px; */
+  background-color: white;
+  border: 1px solid #f6f6f6;
+  border-radius: 2px;
+  box-shadow: 1px 3px 10px #e0e0e0;
+  text-align: left;
+  font-size: 2rem;
+}
+
+.cn {
+  margin: 0px 130px 0px 20px;
+  color: black;
+}
+
+.count {
+  color: hsl(120, 55%, 40%);
+  font-size: 25px;
+}
+
+#center {
+  height: 410px;
+  background-color: #1cd3c1;
+  display: flex;
+  vertical-align: middle;
+  text-align: center;
+}
+
+#board {
+  display: block;
+  width: 374px;
+  margin: auto;
+  padding: 20px;
+  box-sizing: content-box !important;
+}
+
+#board li {
+  list-style-type:none;
+  margin: 0px;
+  font-size: 5rem;
+  color: white;
+  width: 120px;
+  height: 120px;
+  float: left;
+}
+
+#one, #two, #three {
+  border-bottom: 7px solid #0da192;
+}
+#two, #five, #eigth {
+  border-left: 7px solid #0da192;
+  border-right: 7px solid #0da192;
+}
+#seven, #eigth, #ninen {
+  border-top: 7px solid #0da192;
+}
+
+#crossWin, #noughtWin, #tie {
+  display:none;
+  width: 374px;
+  margin: auto;
+  padding-top: 0px;
+  font-size: 4rem;
+  font-weight: bold;
+  color: #545454;
+}
+
+.x {
+    font: 3.5rem 'Varela Round', sans-serif;
+}
+
+.o {
+  font: 2.5rem 'Varela Round', sans-serif;
+  color: white;
+}
+
+#bottom {
+  height: 85px;
+  width: 100%;
+  cursor:pointer;
+  border: none;
+  outline:none;
+  font-size: 1.2rem;
+  color: hsl(120, 42%, 44%);
+  background-color:#f8f8f8;
+  box-shadow: 0 2px 1px -2px rgba(128, 128, 128, 0.637);
+}
+
+@media screen and (max-width: 1168px) {
+  #wrap {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 767px) {
+  select option {
+    font-size: 1rem;
+  }
+}
+@media screen and (max-width: 567px) {
+  #crossWin, #noughtWin, #tie {
+    width: 90%;
+    font-size: 2.5rem;
+  }
+  #top {
+    height: 140px;
+  }
+  #center {
+    height: 300px;
+  }
+  #board {
+    width: 270px;
+  }
+  #board li {
+    width: 85px;
+    height: 85px;
+    font-size: 3.5rem;
+  }
+  .cn {
+    margin: 0px 50px 0px 20px;
+  }
+  .x, .o {
+    font: 2rem 'Varela Round', sans-serif;
+  }
+}

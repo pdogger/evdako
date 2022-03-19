@@ -1,0 +1,29 @@
+{% extends 'tutorml/base.html' %}
+{% load static %}
+
+{% block title %}
+В будущем
+{% endblock %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'tutorml/css/forms.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h1 class="section_title">НУЖНА ВАША ПОМОЩЬ</h1>
+    <form class="future_form" method="post">
+        {% csrf_token %}
+        <label style="padding-bottom: 1rem;">{{ question.text }}</label>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% for choice in question.choice_set.all %}
+        <div class="input-parent sub-parent">
+            <input type="radio" class="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label class="label" for="choice{{ forloop.counter }}">{{ choice.text }}</label>
+        </div>
+        {% endfor %}
+        <button type="submit">Отправить</button>
+    </form>
+    </div>
+</section>
+{% endblock %}

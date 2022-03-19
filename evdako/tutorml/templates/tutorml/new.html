@@ -1,0 +1,30 @@
+{% extends 'tutorml/base.html' %}
+{% load static %}
+
+{% block title %}
+Новые туториалы
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h1 class="section_title">НОВЫЕ ТУТОРИАЛЫ</h1>
+    <div class="grid articles_grid">
+        {% for article in articles %}
+            <div class="article article_long">
+                <div class="article_img"><img src="{% static article.img_path %}"></div>
+                <div class="article_body">
+                    <div class="article_info">
+                        <span>{{ article.category }}</span>
+                        <span>{{ article.pub_date }}</span>
+                    </div>
+                    <h1 class="article_title">{{ article.title }}</h1>
+                    <p class="article_text">
+                        {{ article.description }}
+                    </p>
+                    <a href="{% url 'tutorml:article' article.id %}" class="link_button">ЧИТАТЬ ПОЛНОСТЬЮ</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
