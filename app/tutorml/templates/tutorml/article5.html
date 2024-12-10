@@ -1,0 +1,155 @@
+{% extends 'tutorml/article.html' %}
+{% load static %}
+
+{% block title %}
+{{ article.title }}
+{% endblock %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'tutorml/css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'tutorml/css/atropos.min.css' %}">
+<link rel="stylesheet" href="{% static 'tutorml/css/parallax.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="section full_article">
+    <div class="article parallax_article">
+        <div class="atropos parallax">
+            <!-- scale container (required) -->
+            <div class="atropos-scale">
+              <!-- rotate container (required) -->
+              <div class="atropos-rotate">
+                <!-- inner container (required) -->
+                <div class="atropos-inner">
+                    <img data-atropos-offset="-5" src="{% static article.img_path %}">
+                    <h1 class="text-over" data-atropos-offset="3">{{ article.title }}</h1>
+                    <div class="article_info text-over-2" data-atropos-offset="3">
+                        <span>{{ article.category }}</span>
+                        <span>{{ article.pub_date }}</span>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="mobile_article">
+        <h1 class="section_title">{{ article.title }}</h1>
+        <div class="article">
+            <div class="article_img"><img src="{% static article.img_path %}"></div>
+            <div class="article_info">
+                <span>{{ article.category }}</span>
+                <span>{{ article.pub_date }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="article_text">
+        <p>Модели VGG - это тип архитектуры CNN, предложенный Карен Симоньян и Эндрю Зиссерманом из
+            Visual Geometry Group (VGG), Оксфордский университет, который принес замечательные
+            результаты в конкурсе ImageNet Challenge.</p>
+        <p>CNN - это специализированная модель глубокой нейронной сети для обработки данных изображений.
+            Она не нуждается в традиционных фильтрах обработки изображений, а в CNN фильтры являются
+            самообучаемыми. Таким образом, их не нужно определять методом проб и ошибок. CNN состоит из
+            двух частей, первая часть - это часть обучения признаков, а затем слой классификации
+            (часто называемый слоем с полным подключением). Основными двумя структурными блоками части
+            обучения признаков являются слой свертки и слой объединения. Слой свертки: обучаемые фильтры или экстракторы признаков.
+            Слой пулинга: здесь происходит пространственное сжатие, а также обеспечивается инвариантность.
+            Ниже представлена архитектура CNN</p>
+        <div style="width:100%;display:flex;justify-content:center;"><img class="img_1_matrix"
+            src="https://miro.medium.com/max/1400/1*EsmiX29OAbYcvj4sibp3Jw.png"></img></div>
+        <p>Первым делом необходимо импортировать модель и задать ей предобученные веса для набора
+            данных <a href="https://image-net.org/">ImageNet</a>.
+        </p>
+        <pre class="prettyprint lang-py linenums">from keras.applications.vgg16 import VGG16
+model = VGG16(weights='imagenet')
+</pre>
+        <p>Далее нужно загрузить изображение и обработать его. Приведем его к размеру 224 на 224 пикселя,
+            поскольку входной слой модели имеет именно такое количество нейронов. Затем преобразуем
+            картинку в массив Numpy и добавим дополнительную размерность для числа изображений.
+        </p>
+        <pre class="prettyprint lang-py linenums">from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.vgg16 import preprocess_input,decode_predictions
+import numpy as np
+
+img_path = '/kaggle/input/images/dog.jpg'
+#There is an interpolation method to match the source size with the target size
+#image loaded in PIL (Python Imaging Library)
+img = image.load_img(img_path,color_mode='rgb', target_size=(224, 224))
+# Converts a PIL Image to 3D Numy Array
+x = image.img_to_array(img)
+# Adding the fouth dimension, for number of images
+x = np.expand_dims(x, axis=0)
+</pre>
+        <p>Остается только пропустить изображение через VGG-16. На этом этапе выполняется простая
+            предварительная обработка центрирования среднего, затем делается предсказание, и, наконец,
+            предсказание, представляющее собой распределение вероятностей, декодируется в понятные названия классов.
+        </p>
+        <pre class="prettyprint lang-py linenums">#mean centering with respect to Image
+x = preprocess_input(x)
+features = model.predict(x)
+p = decode_predictions(features)
+</pre>
+        <p>Для фотографии золотистого ретривера, приведенной ниже были получены следующие вероятности:
+            [('golden_retriever', 0.8579672),
+            ('flat-coated_retriever', 0.018425034),
+            ('tennis_ball', 0.01615624),
+            ('Labrador_retriever', 0.015078514),
+            ('Chesapeake_Bay_retriever', 0.012522769)].
+        </p>
+        <div style="width:100%;display:flex;justify-content:center;;padding:1rem;"><img class="img_2_dog"
+                src="{% static 'tutorml/img/article5dog.png' %}"></img></div>
+        <p>Спасибо за внимание!</p>
+    </div>
+    <form class="form_classify_img" method="POST" enctype="multipart/form-data" style="display:none;">
+        {% csrf_token %}
+        <input accept="image/*" type="file" id="classify" onchange="classify_func(event)">
+        <img id="img_to_classify" style="max-height:300px;display:none;">
+    </form>
+</section>
+<audio autoplay hidden loop id="audio_article">
+    <source src="{% static 'tutorml/audio/back.mp3' %}" type="audio/mpeg">
+    Ваш браузер не поддерживает проигрыш аудио.
+</audio>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+<script src="{% static 'tutorml/js/atropos.min.js' %}"></script>
+<script>
+    document.getElementById("audio_article").volume = 0.05;
+</script>
+<script>
+    var classify_func = function(event) {
+        var output = document.getElementById('img_to_classify');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.style.display = "block";
+        output.onload = function() {
+          URL.revokeObjectURL(output.src) // free memory
+        }
+    };
+    {% comment %} $("#predict_lang").click(function () {
+        var input = $('#text_predict_lang').val();
+        var token = $(".form_predict_lang").find('input[name=csrfmiddlewaretoken]').val();
+
+        $.ajax({
+            url: "{% url 'tutorml:get_predicted_lang' %}",
+            method: 'post',
+            data: {
+                'inputValue': input,
+                'csrfmiddlewaretoken': token,
+            },
+            dataType: 'json',
+            success: function (data) {
+                document.getElementById('predicted_lang').innerHTML = data["response"];
+                document.getElementById('predicted_lang').style.display = 'block';
+            }
+        });
+        event.preventDefault();
+    }); {% endcomment %}
+    const parallax = Atropos({
+        el: '.parallax',
+        rotateXMax: 25,
+        rotateYMax: 25,
+        shadow: false
+    });
+</script>
+{% endblock %}

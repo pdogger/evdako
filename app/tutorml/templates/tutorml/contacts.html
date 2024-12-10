@@ -1,0 +1,107 @@
+{% extends 'tutorml/base.html' %}
+{% load static %}
+
+{% block title %}
+Контакты
+{% endblock %}
+
+{% block links %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'tutorml/css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'tutorml/css/bs_changes.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="section" style="position:relative;">
+    <h1 class="section_title">КОНТАКТНАЯ ИНФОРМАЦИЯ</h1>
+    <div class="bs_grid">
+        <div class="row g-4 justify-content-center">
+            <div class="col-auto">
+                <div class="row">
+                    <div class="col-sm col-11 offset-1">
+                        <p>Название проекта:</p>
+                    </div>
+                    <div class="col-sm col-11 offset-1">
+                        <p>Evdako</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm col-11 offset-1">
+                        <p>Почта для предложений:</p>
+                    </div>
+                    <div class="col-sm col-11 offset-1">
+                        <p>office@evdako.ml</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm col-11 offset-1">
+                        <p>Телефон горячей линии:</p>
+                    </div>
+                    <div class="col-sm col-11 offset-1">
+                        <p>8(800)555-35-35</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm col-11 offset-1">
+                        <p>Техническая поддержка:</p>
+                    </div>
+                    <div class="col-sm col-11 offset-1">
+                        <p>help@evdako.ml</p>
+                    </div>
+                </div>
+                <div class="row">
+                        &nbsp;
+                </div>
+                <div class="row">
+                    <div class="div_contacts_social col-sm col-11 offset-1">
+                        <i class="uil uil-vk icon icon_contacts_social"></i>
+                        <a class="contacts_social" target="_blank" href="https://vk.com">vk.com/evdako</a>
+                    </div>
+                    <div class="div_contacts_social col-sm col-11 offset-1">
+                        <i class="uil uil-youtube icon icon_contacts_social"></i>
+                        <a class="contacts_social" target="_blank"
+                            href="https://youtube.com">youtube.com/c/evdako</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div>
+                    <p style="text-align: center;">Адрес: Россия, г. Москва, ул. Таллинская, д. 34</p>
+                    <div style="position:relative;overflow:hidden;">
+                        <a href="https://yandex.ru/maps/213/moscow/?utm_medium=mapframe&utm_source=maps"
+                            style="color:#eee;font-size:12px;position:absolute;top:0px;">Москва</a>
+                        <a href="https://yandex.ru/maps/213/moscow/?ll=37.409846%2C55.803474&mode=whatshere&utm_medium=mapframe&utm_source=maps&whatshere%5Bpoint%5D=37.409846%2C55.803469&whatshere%5Bzoom%5D=17&z=17"
+                            style="color:#eee;font-size:12px;position:absolute;top:14px;">Таллинская улица, 34 на карте
+                            Москвы, ближайшее метро Строгино — Яндекс.Карты</a>
+                        <iframe class="iframe_map" src="https://yandex.ru/map-widget/v1/-/CCUyfAbm~D" width="560" height="400" frameborder="1"
+                            allowfullscreen="true" style="position:relative;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <h1 class="section_title">ПОДПИСЫВАЙТЕСЬ НА РАССЫЛКУ</h1>
+    <form class="subscribe_form" method="POST">
+        {% csrf_token %}
+        <div class="input-parent">
+            <label>Почта</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <div class="input-parent sub-parent">
+            {{ form.notify_tutorials }}
+            <label class="label" for="{{ form.notify_tutorials.id_for_label }}">Получать оповещения о туториалах</label>
+        </div>
+        <div class="input-parent sub-parent">
+            {{ form.notify_datasets }}
+            <label class="label" for="{{ form.notify_datasets.id_for_label }}">Получать оповещения о датасетах</label>
+        </div>
+
+        <button type="submit">Подписаться</button>
+    </form>
+    </div>
+</section>
+{% endblock %}
